@@ -1,8 +1,6 @@
-import { NextApiRequest } from "next";
-import { NextRequest } from "next/server";
-import { OAuthChecks, OAuthConfig, OAuthUserConfig } from "next-auth/providers"
+import { OAuthConfig, OAuthUserConfig } from "next-auth/providers"
 import { tokenConverter } from "./utils";
-import {RootUserWakatimeProfile, UserWakatimeProfile} from './types'
+import { UserWakatimeProfile} from './types'
 
 import Providers from "next-auth/providers"
 
