@@ -2,8 +2,6 @@ import { OAuthConfig, OAuthUserConfig } from "next-auth/providers"
 import { tokenConverter } from "./utils";
 import { UserWakatimeProfile} from './types'
 
-import Providers from "next-auth/providers"
-
 export default function WakatimeProvider<G extends UserWakatimeProfile>( options:OAuthUserConfig<G>):OAuthConfig<G>{
     return {
       id: "wakatime",
