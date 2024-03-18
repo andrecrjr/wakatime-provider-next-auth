@@ -8,7 +8,8 @@ export default function WakatimeProvider<G extends UserWakatimeProfile>( options
       name: "Wakatime",
       type: "oauth",
       version: "2.0",
-      token: {url:"https://wakatime.com/oauth/token",
+      token: {
+        url:"https://wakatime.com/oauth/token",
           async request(context:any) {
             // todo: type for context
                 const response = await fetch("https://wakatime.com/oauth/token",
@@ -21,8 +22,8 @@ export default function WakatimeProvider<G extends UserWakatimeProfile>( options
                 return {tokens:tokenWaka}
           }, 
           params:{
-            client_id:process.env.WAKATIME_CLIENT_ID,
-            client_secret:process.env.WAKATIME_CLIENT_SECRET,
+            client_id:options.clientId,
+            client_secret:options.clientSecret,
             grant_type:"authorization_code"
           },
         },
