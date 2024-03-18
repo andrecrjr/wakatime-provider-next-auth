@@ -1,8 +1,8 @@
-export interface RootUserWakatimeProfile {
+export interface RootUserWakatimeProfile  {
   data: UserWakatimeProfile
 }
 
-export interface UserWakatimeProfile {
+export interface UserWakatimeProfile extends Record<string, any>  {
   id: string
   email?: string
   timezone?: string
