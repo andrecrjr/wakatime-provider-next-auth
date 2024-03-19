@@ -9,10 +9,12 @@ import NextAuth from "next-auth/next";
         clientSecret:process.env.CLIENT_SECRET!,
         authorization: {
           params: {
-            scope:"email,read_stats,read_summaries,read_stats,read_summaries.projects,read_summaries.languages",
+            scope:"email,read_stats,read_summaries", // add more scopes from 
         }
-      }
-    })]})
+      },
+      
+    }
+    )], secret:process.env.NEXT_AUTH_SECRET})
 
 
 export { authHandler as GET, authHandler as POST}
