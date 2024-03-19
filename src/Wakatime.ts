@@ -16,8 +16,8 @@ export default function WakatimeProvider<G extends RootUserWakatimeProfile>( opt
               const response = await axios.post("https://wakatime.com/oauth/token",
               {...context.params, redirect_uri:context.provider.callbackUrl},
             );
-            const tokenWaka = tokenConverter(response.data)
-            return {tokens:tokenWaka}
+            const tokensWakatime = tokenConverter(response.data)
+            return {tokens:tokensWakatime}
           }, 
           params:{
             client_id:options.clientId,
