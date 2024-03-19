@@ -1,9 +1,9 @@
 import { OAuthConfig, OAuthUserConfig } from "next-auth/providers"
 import { tokenConverter } from "./utils";
-import { UserWakatimeProfile} from './types'
+import { RootUserWakatimeProfile } from './types'
 import axios from "axios";
 
-export default function WakatimeProvider<G extends UserWakatimeProfile>( options:OAuthUserConfig<G>):OAuthConfig<G>{
+export default function WakatimeProvider<G extends RootUserWakatimeProfile>( options:OAuthUserConfig<G>):OAuthConfig<G>{
     return {
       id: "wakatime",
       name: "Wakatime",
@@ -41,7 +41,7 @@ export default function WakatimeProvider<G extends UserWakatimeProfile>( options
           return response.data
         },
       },
-      profile(profile:UserWakatimeProfile) {
+      profile(profile:RootUserWakatimeProfile) {
         const data = profile.data
         return data
       },
