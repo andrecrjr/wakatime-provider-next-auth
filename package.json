@@ -1,9 +1,10 @@
 {
   "name": "next-auth-wakatime",
-  "version": "0.1.4",
+  "version": "0.0.1",
   "description": "Wakatime authentication provider for next-auth",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
@@ -21,6 +22,7 @@
     "typescript": "^5.4.2"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "README.md"
   ]
 }
