@@ -1,6 +1,7 @@
 import { OAuthConfig, OAuthUserConfig } from "next-auth/providers"
 import { tokenConverter } from "./utils";
 import { UserWakatimeProfile} from './types'
+import axios from "axios";
 
 export default function WakatimeProvider<G extends UserWakatimeProfile>( options:OAuthUserConfig<G>):OAuthConfig<G>{
     return {
@@ -12,14 +13,11 @@ export default function WakatimeProvider<G extends UserWakatimeProfile>( options
         url:"https://wakatime.com/oauth/token",
           async request(context:any) {
             // todo: type for context
-                const response = await fetch("https://wakatime.com/oauth/token",
-                    {   ...context.params, 
-                        redirect_uri:context.provider.callbackUrl, 
-                        method:"POST" },
-                    );
-                const {data} = await response.json()
-                const tokenWaka = tokenConverter(data)
-                return {tokens:tokenWaka}
+              const response = await axios.post("https://wakatime.com/oauth/token",
+              {...context.params, redirect_uri:context.provider.callbackUrl},
+            );
+            const tokenWaka = tokenConverter(response.data)
+            return {tokens:tokenWaka}
           }, 
           params:{
             client_id:options.clientId,
@@ -37,11 +35,10 @@ export default function WakatimeProvider<G extends UserWakatimeProfile>( options
       userinfo: {
         async request(context:any){
           // todo: type for context
-          const response = await fetch("https://wakatime.com/api/v1/users/current", {
+          const response = await axios.get("https://wakatime.com/api/v1/users/current", {
             headers: {Authorization: `Bearer ${context.tokens.access_token}`}
           })
-          const data = await response.json()
-          return data
+          return response.data
         },
       },
       profile(profile:UserWakatimeProfile) {
