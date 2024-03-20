@@ -26,21 +26,26 @@ Configure the Wakatime provider inside your `[...nextauth]/route.ts` route:
 
 ```TypeScript
 
-import NextAuth from "next-auth";
-import WakatimeProvider from "next-auth-wakatime";
+import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth/next";
+import WakatimeProvider from "wakatime-provider-next-auth";
 
-export default NextAuth({
-  providers: [
+ export const authHandler:NextAuthOptions = NextAuth({ providers: [
     WakatimeProvider({
-      clientId: process.env.WAKATIME_CLIENT_ID,
-      clientSecret: process.env.WAKATIME_CLIENT_SECRET,
-      authorization: {
-        params: {
-          scope: "email,read_stats,read_summaries", // DON'T FORGET this is Required scopes in the code to work
-        },
+        clientId:process.env.CLIENT_ID!,
+        clientSecret:process.env.CLIENT_SECRET!,
+        authorization: {
+          params: {
+            scope:"email,read_stats,read_summaries", // add more scopes from 
+        }
       },
-    }),
-  ],
+    }
+    )], 
+    secret:process.env.NEXTAUTH_SECRET, 
+    session:{
+      strategy: "jwt"
+    }})
+
   // Add additional NextAuth configuration here
 });
 ```
@@ -81,5 +86,9 @@ callbacks: {
   },
 },
 ```
+
+## User session
+Front end data and Back-end data can be retrieved by its hooks `useSession(authHandler)` and `getServerSession(authHandler)`, like any other provider.
+Don't forget to handle between user sessions like the example above to get data faster in front-end.
 
 Remember to replace the placeholders with your actual environment variables and adjust the configuration to suit your project’s needs.

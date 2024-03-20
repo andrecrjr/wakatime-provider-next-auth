@@ -1,5 +1,4 @@
-import { NextApiRequest } from "next";
-import { AuthOptions, NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 
 import NextAuth from "next-auth/next";
 import WakatimeProvider from "wakatime-provider-next-auth";
