@@ -1,10 +1,12 @@
 import { NextApiRequest } from "next";
-import { AuthOptions } from "next-auth";
-import WakatimeProvider from "next-auth-wakatime"
+import { AuthOptions, NextAuthOptions } from "next-auth";
+
 import NextAuth from "next-auth/next";
+import WakatimeProvider from "wakatime-provider-next-auth";
 
 
- const authHandler = NextAuth({ providers: [WakatimeProvider({
+ export const authHandler:NextAuthOptions = NextAuth({ providers: [
+    WakatimeProvider({
         clientId:process.env.CLIENT_ID!,
         clientSecret:process.env.CLIENT_SECRET!,
         authorization: {
@@ -14,7 +16,12 @@ import NextAuth from "next-auth/next";
       },
       
     }
-    )], secret:process.env.NEXT_AUTH_SECRET})
+    )], 
+    secret:process.env.NEXTAUTH_SECRET, 
+    debug: true,
+    session:{
+      strategy: "jwt"
+    }})
 
 
 export { authHandler as GET, authHandler as POST}

@@ -7,8 +7,8 @@ export default function WakatimeProvider<G extends RootUserWakatimeProfile>( opt
       id: "wakatime",
       name: "Wakatime",
       type: "oauth",
-      clientId: process.env.WAKATIME_CLIENT_ID,
-      clientSecret: process.env.WAKATIME_CLIENT_SECRET,
+      clientId: options.clientId,
+      clientSecret: options.clientSecret,
       version: "2.0",
       token: {
         url:"https://wakatime.com/oauth/token",
@@ -26,8 +26,8 @@ export default function WakatimeProvider<G extends RootUserWakatimeProfile>( opt
           return {tokens:tokenWaka}
         }, 
         params:{
-          client_id:process.env.WAKATIME_CLIENT_ID,
-          client_secret:process.env.WAKATIME_CLIENT_SECRET,
+          client_id:options.clientId,
+          client_secret:options.clientSecret,
           grant_type:"authorization_code"
         }
       },
