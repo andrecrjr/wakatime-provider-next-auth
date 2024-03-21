@@ -1,8 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 
 import NextAuth from "next-auth/next";
-import WakatimeProvider from "wakatime-provider-next-auth";
-
+import WakatimeProvider from "wakatime-next-auth";
 
  export const authHandler:NextAuthOptions = NextAuth({ providers: [
     WakatimeProvider({
@@ -13,7 +12,6 @@ import WakatimeProvider from "wakatime-provider-next-auth";
             scope:"email,read_stats,read_summaries", // add more scopes from 
         }
       },
-      
     }
     )], 
     secret:process.env.NEXTAUTH_SECRET, 
