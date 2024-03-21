@@ -3,6 +3,8 @@ import { tokenConverter } from "./utils";
 import { RootUserWakatimeProfile, UserWakatimeProfile } from './types'
 
 export default function WakatimeProvider<G extends RootUserWakatimeProfile>( options:OAuthUserConfig<G>):OAuthConfig<G>{
+
+
     return  {
       id: "wakatime",
       name: "Wakatime",
@@ -32,9 +34,9 @@ export default function WakatimeProvider<G extends RootUserWakatimeProfile>( opt
         }
       },
       authorization: {
-          url:"https://wakatime.com/oauth/authorize?response_type=code", params:
-        {
-          scope:"email,read_stats,read_summaries",
+          url:"https://wakatime.com/oauth/authorize?response_type=code", 
+          params:{
+          scope:`email,read_stats`,
           "grant_type":"authorization_code"
         }
       },
@@ -53,5 +55,6 @@ export default function WakatimeProvider<G extends RootUserWakatimeProfile>( opt
       return {name:data.username, email:data.email, image:data.photo, ...data}
     },
     accessTokenUrl: "https://wakatime.com/oauth/token",
+    options
     }
 }
