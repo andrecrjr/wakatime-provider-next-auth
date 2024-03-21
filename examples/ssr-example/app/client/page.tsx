@@ -6,5 +6,5 @@ import ClientPage from "../components/PageClient"
 export default function Page() {
   
   // get all profile data
-  return <ClientPage />;
+  return <><p>Client Data</p><ClientPage /></>;
 }

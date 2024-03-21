@@ -28,7 +28,7 @@ Configure the Wakatime provider inside your `[...nextauth]/route.ts` route:
 
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
-import WakatimeProvider from "wakatime-provider-next-auth";
+import WakatimeProvider, {UserWakatimeProfile} from "wakatime-next-auth"
 
  export const authHandler:NextAuthOptions = NextAuth({ providers: [
     WakatimeProvider({
@@ -67,46 +67,50 @@ export default LoginButton;
 ```
 ## Handling User Sessions
 
-To access more data from useSession, you may need to customize the callbacks:
+To access more data from useSession, you may need to customize the callbacks inside NextAuth in `[...nextauth]/route.ts`:
 
 ```TypeScript
-
+import WakatimeProvider, {UserWakatimeProfile} from "wakatime-next-auth"
+// inside NextAuth Handler
+// all provider code
 callbacks: {
   async jwt({ token, account, user }) {
-    if (user) {
-      token.user = user;
-    }
-    return token;
-  },
-  async session({ session, token }) {
-    if (token.user) {
-      session.user = token.user;
-    }
-    return session;
-  },
+  if (user) {
+    token.user = user;
+  }
+  return token;
 },
+async session({ session, token }) {
+  if (token.user) {
+    session.user = token.user as UserWakatimeProfile;
+  }
+  return session;
+},
+}
 ```
+obs: it will give only informations inside client component all the data you'll need, from server side, you'll just get email, name and image for security purposes. 
+
 
 ## User session
 Front end data and Back-end data can be retrieved by its hooks `useSession(authHandler)` and `getServerSession(authHandler)`, like any other provider.
 Don't forget to handle between user sessions like the example above to get data faster in front-end.
 
 Type Session for Typescript
-```
+```Typescript
 // next-auth.d.ts
 
 import { DefaultSession } from "next-auth";
-
+import {UserWakatimeProfile} from "wakatime-next-auth"
 
 declare module "next-auth" {
   interface Session {
-    user: UserProfile & DefaultSession["user"];
+    user: UserWakatimeProfile & DefaultSession["user"];
   }
 }
 ```
 
-Server Session 
-```
+### Server Session 
+```Typescript
 // server
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
@@ -122,8 +126,11 @@ export default async function User() {
 }
 ```
 
-Front-end Session (don't forge to `<SessionContext>` from next-auth)
-```
+### Front-end Session 
+
+don't forget to create a client component to wrap using `<SessionProvider>` from next-auth.
+
+```Typescript
 // front-end component
 'use client'
 import { useSession } from "next-auth/react";

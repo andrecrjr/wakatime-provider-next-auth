@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 
 import NextAuth from "next-auth/next";
-import WakatimeProvider from "wakatime-next-auth";
+import WakatimeProvider, {UserWakatimeProfile} from "wakatime-next-auth";
 
  export const authHandler:NextAuthOptions = NextAuth({ providers: [
     WakatimeProvider({
@@ -18,7 +18,23 @@ import WakatimeProvider from "wakatime-next-auth";
     debug: true,
     session:{
       strategy: "jwt"
-    }})
+    },
+    callbacks: {
+    async jwt({ token, account, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.user) {
+        session.user = token.user as UserWakatimeProfile;
+      }
+      return session;
+    },
+}
+  
+  })
 
 
 export { authHandler as GET, authHandler as POST}

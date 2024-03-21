@@ -1,6 +1,6 @@
 {
   "name": "wakatime-next-auth",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wakatime Authentication Provider for next-auth",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

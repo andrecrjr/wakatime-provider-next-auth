@@ -8,11 +8,12 @@ import { log } from 'console';
 
 export default async function Home() {
   const data = await getServerSession(authHandler)
-    console.log(data);
+    
     
   return (
     <main className={styles.main}>
-      {data?.user?.name ? JSON.stringify(data): <LoginButton />}
+     
+      {data?.user?.name ?  <><h1>Server Data</h1><code>{JSON.stringify(data)}</code></>: <LoginButton />}
     </main>
   );
 }
