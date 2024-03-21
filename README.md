@@ -91,4 +91,53 @@ callbacks: {
 Front end data and Back-end data can be retrieved by its hooks `useSession(authHandler)` and `getServerSession(authHandler)`, like any other provider.
 Don't forget to handle between user sessions like the example above to get data faster in front-end.
 
+Type Session for Typescript
+```
+// next-auth.d.ts
+
+import { DefaultSession } from "next-auth";
+
+
+declare module "next-auth" {
+  interface Session {
+    user: UserProfile & DefaultSession["user"];
+  }
+}
+```
+
+Server Session 
+```
+// server
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
+
+export default async function User() {
+   const data = await getServerSession(authOptions)
+  if(!!data)
+    return (
+      <p>
+        {JSON.stringify(data)}
+      </p>
+  )
+}
+```
+
+Front-end Session (don't forge to `<SessionContext>` from next-auth)
+```
+// front-end component
+'use client'
+import { useSession } from "next-auth/react";
+import React from "react";
+
+
+export default function Page() {
+  const {data} = useSession()
+  // get all profile data
+  return <div>{JSON.stringify(data?.user)}</div>;
+}
+
+```
+
+
+
 Remember to replace the placeholders with your actual environment variables and adjust the configuration to suit your project’s needs.

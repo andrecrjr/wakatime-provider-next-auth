@@ -50,7 +50,7 @@ export default function WakatimeProvider<G extends RootUserWakatimeProfile>( opt
     idToken:false,
     profile(profile) {
       const data: UserWakatimeProfile = profile.data
-      return {id:data.id, name:data.username, email:data.email, image:data.photo}
+      return {name:data.username, email:data.email, image:data.photo, ...data}
     },
     accessTokenUrl: "https://wakatime.com/oauth/token",
     }
