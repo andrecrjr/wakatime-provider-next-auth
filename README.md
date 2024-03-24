@@ -67,26 +67,68 @@ export default LoginButton;
 
 ## Handling User Sessions
 
-To access more data from useSession, you may need to customize the callbacks inside NextAuth in `[...nextauth]/route.ts`:
+To retrieve more data from useSession (client side), you may need to customize the callbacks inside NextAuth in `[...nextauth]/route.ts`:
 
 ```TypeScript
-import WakatimeProvider, {UserWakatimeProfile} from "wakatime-next-auth"
-// inside NextAuth Handler
-// all provider code
+import WakatimeProvider, { UserWakatimeProfile } from "wakatime-next-auth";
+
+// Inside NextAuth Handler
+// ... All provider code
 callbacks: {
   async jwt({ token, account, user }) {
-  if (user) {
-    token.user = user;
-  }
-  return token;
-},
-async session({ session, token }) {
-  if (token.user) {
-    session.user = token.user as UserWakatimeProfile;
-  }
-  return session;
-},
+
+    if (user) {
+      token.user = user;
+    }
+
+    /* -------- Retrieve more data  -------- 
+    
+    if (account && account.access_token) {
+      // Use the access token to fetch additional data from an API
+      const response = await fetch('https://api.wakatime.com/api/v1/users/heartbeat', {
+        headers: {
+          Authorization: `Bearer ${account.access_token}`
+        }
+      });
+
+      // If the fetch operation is successful, add the data to the token
+      if (response.ok) {
+        const data = await response.json();
+        // Add the fetched data to the token
+        token.wakatimeData = data;
+      } else {
+        // Handle errors or unsuccessful fetch operations here
+        console.error('Failed to fetch Wakatime data:', response.statusText);
+      } ---------------------- */
+
+    /* -----------Token Rotation-------------  
+    // Check if the account object exists and if the access token is about to expire
+    if (account && account.expires_at) {
+      // Convert expiry time to milliseconds to compare with the current time
+      const now = Date.now();
+      const expiryTime = account.expires_at * 1000;
+
+      // If the current time is close to the expiry time, request a new access token
+      if (now + (60 * 1000) > expiryTime) { // Refresh the token 1 minute before it expires
+        // Implement the logic to refresh the token here
+        // This usually involves making a request to the OAuth provider's token endpoint
+        // token.accessToken = await refreshAccessToken(account.refresh_token);
+      }
+    }  ---------------------- */
+
+    return token;
+  },
+
+  async session({ session, token }) {
+
+    if (token.user) {
+      session.user = token.user as UserWakatimeProfile;
+    }
+
+    return session;
+  },
 }
+
 ```
 obs: it will give only informations inside client component all the data you'll need, from server side, you'll just get email, name and image for security purposes. 
 
@@ -95,7 +137,7 @@ obs: it will give only informations inside client component all the data you'll 
 Front end data and Back-end data can be retrieved by its hooks `useSession(authHandler)` and `getServerSession(authHandler)`, like any other provider.
 Don't forget to handle between user sessions like the example above to get data faster in front-end.
 
-Type Session for Typescript
+### Type Session for Typescript
 ```Typescript
 // next-auth.d.ts
 
