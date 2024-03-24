@@ -1,4 +1,4 @@
-# Wakatime Provider for NextAuth.js
+# Wakatime Provider for NextAuth
 
 This is a simple provider to integrate Wakatime authentication into your Next.js project using NextAuth.js. It's primarily for educational purposes but is fully functional and can be used as-is.
 
@@ -16,7 +16,7 @@ First, you need to create a new application on Wakatime:
 Install the necessary packages:
 
 ```bash
-npm install next-auth next-auth-wakatime
+npm install next-auth wakatime-next-auth
 ```
 ## Configuration
 
@@ -36,11 +36,11 @@ import WakatimeProvider, {UserWakatimeProfile} from "wakatime-next-auth"
         clientSecret:process.env.CLIENT_SECRET!,
         authorization: {
           params: {
-            scope:"email,read_stats,read_summaries", // add more scopes from 
+            scope:"email,read_stats,read_summaries", // add more scopes from wakatime authentication docs
         }
       },
-    }
-    )], 
+    }),     //...Add other providers if you need
+    ], 
     secret:process.env.NEXTAUTH_SECRET, 
     session:{
       strategy: "jwt"
@@ -50,9 +50,8 @@ import WakatimeProvider, {UserWakatimeProfile} from "wakatime-next-auth"
 });
 ```
 
+### Usage
 
-
-Usage
 Implement the sign-in functionality using the NextAuth.js React hooks:
 ```Typescript
 import { signIn } from "next-auth/react";
@@ -65,6 +64,7 @@ const LoginButton = () => (
 
 export default LoginButton;
 ```
+
 ## Handling User Sessions
 
 To access more data from useSession, you may need to customize the callbacks inside NextAuth in `[...nextauth]/route.ts`:
@@ -91,7 +91,7 @@ async session({ session, token }) {
 obs: it will give only informations inside client component all the data you'll need, from server side, you'll just get email, name and image for security purposes. 
 
 
-## User session
+### User session
 Front end data and Back-end data can be retrieved by its hooks `useSession(authHandler)` and `getServerSession(authHandler)`, like any other provider.
 Don't forget to handle between user sessions like the example above to get data faster in front-end.
 
@@ -146,5 +146,4 @@ export default function Page() {
 ```
 
 
-
-Remember to replace the placeholders with your actual environment variables and adjust the configuration to suit your project’s needs.
+Remember to replace the placeholders with your current environment variables and adjust the configuration to suit your project’s needs.

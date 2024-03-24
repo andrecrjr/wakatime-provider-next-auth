@@ -1,6 +1,6 @@
 {
   "name": "wakatime-next-auth",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wakatime Authentication Provider for next-auth",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,7 +10,7 @@
     "build": "tsc",
     "watch": "tsc -w"
   },
-  "keywords": [],
+  "keywords": ["wakatime", "next-auth", "provider", "nextjs", "outh", "authentication"],
   "author": "André Carlos Jr.",
   "license": "ISC",
   "dependencies": {
